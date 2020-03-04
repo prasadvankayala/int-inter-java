@@ -46,6 +46,25 @@ public class UseSuperIterable {
                     }
                 });
 
+        System.out.println("Version 3 ---------------------------");
+        sis
+                .filter(new ShortCriterion())
+                .forEvery(/*new Consumer<String>() {
+                    @Override
+                    public void accept*/(String s) -> {
+                        System.out.println("More Output " + s);
+                    }
+                /*}*/);
+
+        System.out.println("Version 4 ---------------------------");
+        sis
+                .filter(new ShortCriterion())
+//                .forEvery((/*String */s) -> {
+//                .forEvery(s -> {
+//                        System.out.println("More Output " + s);
+//                    });
+                .forEvery(s -> System.out.println("More Output " + s));
+
 
     }
 
