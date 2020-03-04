@@ -43,6 +43,15 @@ public final class Student {
         newCourses.add(course);
         return new Student(this.name, this.grade, newCourses);
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", grade=" + grade +
+                ", courses=" + courses +
+                '}';
+    }
 }
 
 //class VIPStudent extends Student {
