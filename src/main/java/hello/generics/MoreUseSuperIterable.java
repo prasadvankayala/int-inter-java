@@ -17,12 +17,13 @@ public class MoreUseSuperIterable {
         // - have grades > 3
         // - take more than 2 courses
         // Print the name and grade of all the students who take more than two courses
+
         // Print all the courses taken by the students???
         // Print all student-name/course pairs, e.g.
         //   Fred takes Math
         //   Fred takes Physics
         //   ...
-
+        // Print all the smart student's names in a comma separated list: Fred, Sheila
 
     }
 }
