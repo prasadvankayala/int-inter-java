@@ -1,12 +1,15 @@
 package hello.generics;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-interface User<T> {
-    void accept(T t);
-}
+//interface User<T> {
+//    void accept(T t);
+//}
 
-class Printer implements User<String> {
+
+class Printer implements Consumer<String> {
 
     @Override
     public void accept(String s) {
@@ -14,7 +17,7 @@ class Printer implements User<String> {
     }
 }
 
-class ShortCriterion implements Criterion<String> {
+class ShortCriterion implements Predicate<String> {
 
     @Override
     public boolean test(String s) {
@@ -31,6 +34,19 @@ public class UseSuperIterable {
         sis
                 .filter(new ShortCriterion())
                 .forEvery(new Printer());
+
+
+        System.out.println("Version 2 ---------------------------");
+        sis
+                .filter(new ShortCriterion())
+                .forEvery(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) {
+                        System.out.println("More Output " + s);
+                    }
+                });
+
+
     }
 
 //    public static <T> void showAll(SuperIterable<T> target) {
