@@ -2,6 +2,7 @@ package hello.streams;
 
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
 class ImmutAverage {
     private long count = 0;
@@ -29,8 +30,15 @@ class ImmutAverage {
 public class ImmutAverager {
     public static void main(String[] args) {
         long start = System.nanoTime();
-        ThreadLocalRandom.current().doubles(3_000_000_000L, -Math.PI, Math.PI)
-                .boxed()
+        // This source version creates ordered stream, almost certainly crashes (even with the
+        // .unordered; evidently the source is maintaining order, even when the rest of the
+        // stream is not.
+        Stream.iterate(0.0, x -> ThreadLocalRandom.current().nextDouble(-Math.PI, Math.PI))
+//                .unordered()
+                .limit(1_000_000_000L)
+
+//        ThreadLocalRandom.current().doubles(3_000_000_000L, -Math.PI, Math.PI)
+//                .boxed()
                 .parallel()
                 .reduce(new ImmutAverage(0, 0), (ia, d) -> ia.include(d), (ia1, ia2) -> ia1.merge(ia2))
                 .get()
