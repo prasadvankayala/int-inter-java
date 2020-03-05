@@ -37,7 +37,13 @@ class Average {
         else return Optional.empty();
     }
 
-    public static class MyAverager implements Collector<Double, Average, Average> {
+    private static Collector<Double, Average, Average> collectorInstance = new MyAverager();
+
+    public static Collector<Double, Average, Average> getAveragingCollector() {
+        return collectorInstance;
+    }
+
+    private static class MyAverager implements Collector<Double, Average, Average> {
 
         @Override
         public Supplier<Average> supplier() {
@@ -75,15 +81,15 @@ public class MutatingAverager {
         ThreadLocalRandom.current().doubles(6_000_000_000L, -Math.PI, Math.PI)
                 .boxed()
                 .parallel()
-                .collect(
-//                        () -> new Average(),
-                        Average::new,
-//                        (a, d) -> a.include(d),
-                        Average::include,
-//                        (a1, a2) -> a1.merge(a2)
-                        Average::merge
-                )
-//                .collect(new Average.MyAverager())
+//                .collect(
+////                        () -> new Average(),
+//                        Average::new,
+////                        (a, d) -> a.include(d),
+//                        Average::include,
+////                        (a1, a2) -> a1.merge(a2)
+//                        Average::merge
+//                )
+                .collect(Average.getAveragingCollector())
                 .get()
                 .map(a -> "The average is " + a)
                 .ifPresent(m -> System.out.println(m));
